@@ -21,57 +21,24 @@ canPath = document.getElementById("path");
 ctx = can.getContext("2d");
 //-------------------------------------
 Game = {
-    // Lines: x - horozintal, y - vertical
-    'lines' : { 
-        'x': [[1,1,1,0,1],[1,0,1,1,0],[1,1,1,1,1],[1,0,0,1,1]], 
-        'y': [[1,0,0,0,0],[0,1,1,1,1],[1,0,1,0,1],[0,1,1,1,0]] 
+    // Game related variables
+    'vars' : {
+        'cursor' : {
+            'x' : 0,
+            'y' : 0
+        }
     },
-    
-    // Blocks: space between lines where there can be special attributes
-    // none      - nothing
-    'blocks' : [
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}],
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}],
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}],
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}]
-    ],
-    
-    // Game objects: things that are drawn on lines or between them [FROM TOP TO BOTTOM -> THEN NEXT ELEMENT IS NEXT COLUMN]
-    // none      - nothing
-    // connector - circle where we can draw through
-    // start     - start of the puzzle
-    // noend     - there is no path after this
-    'objects' : [
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}],
-        [{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'noend'},{'type':'none'},{'type':'start'},{'type':'none'}], 
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}], 
-        [{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'}],
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}], 
-        [{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'}],
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}], 
-        [{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'}], 
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}], 
-        [{'type':'endbottom'},{'type':'connector'},{'type':'none'},{'type':'noend'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'connector'},{'type':'none'},{'type':'noend'},{'type':'none'}],
-        [{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'},{'type':'none'}]
-    ],
     
     //###############################################
     // Grid which is user drawn lines
     'grid' : [],
     
-    
-    /*
-    PUZZLE #2
-    'lines' : { 'x': [[1,0]], 'y': [[0,1]] },
-    'blocks' : [[{'type':'none'}]],
-    'objects' : [[{'type':'connector'},{'type':'none'},{'type':'none'}], [{'type':'none'},{'type':'none'}], [{'type':'connector'},{'type':'none'},{'type':'start'}]],
-    */
     //###############################################
     'updateCanvas' : () => {
-        can.width      = PADDING*2+(Game.lines.x.length+1)*LENGTH;
-        can.height     = PADDING*2+(Game.lines.y.length+1)*LENGTH;
-        canPath.width  = PADDING*2+(Game.lines.x.length+1)*LENGTH;
-        canPath.height = PADDING*2+(Game.lines.y.length+1)*LENGTH;
+        can.width      = PADDING*2+(Puzzle.lines.x.length+1)*LENGTH;
+        can.height     = PADDING*2+(Puzzle.lines.y.length+1)*LENGTH;
+        canPath.width  = PADDING*2+(Puzzle.lines.x.length+1)*LENGTH;
+        canPath.height = PADDING*2+(Puzzle.lines.y.length+1)*LENGTH;
     },
     //###############################################
     'drawCircle' : (x,y) => {
@@ -155,62 +122,65 @@ Game = {
     //###############################################
     'generateBoard' : () => {
         Game.grid = [];
-        for(var i=0; i < Game.objects.length; i++){
+        for(var i=0; i < Puzzle.objects.length; i++){
             gridToInsert = [];
-            gridToInsert.length = Game.objects[i].length;
+            gridToInsert.length = Puzzle.objects[i].length;
             gridToInsert.fill(0);
             Game.grid.push(gridToInsert);
         }
-        for(var i=0; i < Game.lines.x.length; i++){
-            for(var j=0; j < Game.lines.x[i].length; j++){
-                if(Game.lines.x[i][j]){
+        for(var i=0; i < Puzzle.lines.x.length; i++){
+            for(var j=0; j < Puzzle.lines.x[i].length; j++){
+                if(Puzzle.lines.x[i][j]){
                     Game.drawLine(i*LENGTH+PADDING+LENGTH/2, j*LENGTH+PADDING+LENGTH/2, (i+1)*LENGTH+PADDING+LENGTH/2, j*LENGTH+PADDING+LENGTH/2)
                 }
             }
         }
-        for(var i=0; i < Game.lines.y.length; i++){
-            for(var j=0; j < Game.lines.y[i].length; j++){
-                if(Game.lines.y[i][j]){
+        for(var i=0; i < Puzzle.lines.y.length; i++){
+            for(var j=0; j < Puzzle.lines.y[i].length; j++){
+                if(Puzzle.lines.y[i][j]){
                     Game.drawLine(j*LENGTH+PADDING+LENGTH/2, i*LENGTH+PADDING+LENGTH/2, j*LENGTH+PADDING+LENGTH/2, (i+1)*LENGTH+PADDING+LENGTH/2)
                 }
             }
         }
-        for(var i=0; i < Game.objects.length; i++){
-            for(var j=0; j < Game.objects[i].length; j++){
-                switch(Game.objects[i][j].type){
+        for(var i=0; i < Puzzle.objects.length; i++){
+            for(var j=0; j < Puzzle.objects[i].length; j++){
+                switch(Puzzle.objects[i][j].type){
                     case "connector":
-                        Game.drawCircle(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawCircle(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                     case "start":
-                        Game.drawStart(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawStart(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                     case "noend":
-                        Game.drawNoEnd(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawNoEnd(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                     case "endbottom":
-                        Game.drawEndBottom(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawEndBottom(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                     case "endtop":
-                        Game.drawEndTop(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawEndTop(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                     case "endright":
-                        Game.drawEndRight(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawEndRight(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                     case "endleft":
-                        Game.drawEndLeft(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                        Game.drawEndLeft(Puzzle.objects[i][j].x, Puzzle.objects[i][j].y);
                         break;
                 }
             }
         }
+    },
+    //###############################################
+    'cursorMove' : (e) => {
+        Game.vars.cursor.x = e.clientX - e.target.getBoundingClientRect().left;
+        Game.vars.cursor.y = e.clientY - e.target.getBoundingClientRect().top;
     }
 }
 //-------------------------------------
-function cursorMove(e){
-  CURSOR_X = e.clientX - e.target.getBoundingClientRect().left
-  CURSOR_Y = e.clientY - e.target.getBoundingClientRect().top
-}
+
 function cursorStart(){
-  console.log(CURSOR_X + " " + CURSOR_Y)
+    
+    console.log(Game.vars.cursor)
 }
 Game.updateCanvas();
 Game.generateBoard();
