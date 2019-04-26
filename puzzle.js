@@ -89,7 +89,7 @@ Puzzle = {
             "y": 65
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 65,
             "y": 100
           },
@@ -109,7 +109,7 @@ Puzzle = {
             "y": 205
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 65,
             "y": 240
           },
@@ -141,7 +141,7 @@ Puzzle = {
             "y": 30
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 100,
             "y": 65
           },
@@ -151,7 +151,7 @@ Puzzle = {
             "y": 100
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 100,
             "y": 135
           },
@@ -161,7 +161,7 @@ Puzzle = {
             "y": 170
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 100,
             "y": 205
           },
@@ -181,7 +181,7 @@ Puzzle = {
             "y": 310
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 100,
             "y": 345
           },
@@ -213,7 +213,7 @@ Puzzle = {
             "y": 135
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 135,
             "y": 170
           },
@@ -233,7 +233,7 @@ Puzzle = {
             "y": 275
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 135,
             "y": 310
           },
@@ -255,7 +255,7 @@ Puzzle = {
             "y": 30
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 170,
             "y": 65
           },
@@ -275,7 +275,7 @@ Puzzle = {
             "y": 170
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 170,
             "y": 205
           },
@@ -285,7 +285,7 @@ Puzzle = {
             "y": 240
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 170,
             "y": 275
           },
@@ -327,7 +327,7 @@ Puzzle = {
             "y": 135
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 205,
             "y": 170
           },
@@ -337,7 +337,7 @@ Puzzle = {
             "y": 205
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 205,
             "y": 240
           },
@@ -347,7 +347,7 @@ Puzzle = {
             "y": 275
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 205,
             "y": 310
           },
@@ -369,7 +369,7 @@ Puzzle = {
             "y": 30
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 240,
             "y": 65
           },
@@ -379,7 +379,7 @@ Puzzle = {
             "y": 100
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 240,
             "y": 135
           },
@@ -389,7 +389,7 @@ Puzzle = {
             "y": 170
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 240,
             "y": 205
           },
@@ -399,7 +399,7 @@ Puzzle = {
             "y": 240
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 240,
             "y": 275
           },
@@ -409,7 +409,7 @@ Puzzle = {
             "y": 310
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 240,
             "y": 345
           },
@@ -441,7 +441,7 @@ Puzzle = {
             "y": 135
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 275,
             "y": 170
           },
@@ -461,7 +461,7 @@ Puzzle = {
             "y": 275
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 275,
             "y": 310
           },
@@ -483,7 +483,7 @@ Puzzle = {
             "y": 30
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 310,
             "y": 65
           },
@@ -513,7 +513,7 @@ Puzzle = {
             "y": 240
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 310,
             "y": 275
           },
@@ -523,7 +523,7 @@ Puzzle = {
             "y": 310
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 310,
             "y": 345
           },
@@ -555,7 +555,7 @@ Puzzle = {
             "y": 135
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 345,
             "y": 170
           },
@@ -565,7 +565,7 @@ Puzzle = {
             "y": 205
           },
           {
-            "type": "none",
+            "type": "line",
             "x": 345,
             "y": 240
           },
