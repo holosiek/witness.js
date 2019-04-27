@@ -1,6 +1,18 @@
+@keyframes blink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.75; }
+    100% { opacity: 1; }
+}
+@keyframes none {
+    0% { }
+    100% { }
+}
+
 body    { background: #f3d56b; overflow: hidden; padding: 0; margin: 0; }
 canvas  { border: 1px dashed #b9b04f; }
 
 .wrap   { display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; }
 .canv   { position: relative; }
-#path   { z-index: 1; position: absolute; top: 0; left: 0; }
+
+#path   { z-index: 1; position: absolute; top: 0; left: 0; animation: none 10s infinite }
+.anime   { animation: blink 0.75s infinite linear !important; }

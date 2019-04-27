@@ -36,11 +36,8 @@ Game = {
             'x' : -1,
             'y' : -1
         },
+        'grid' : []
     },
-    
-    //###############################################
-    // Grid which is user drawn lines
-    'grid' : [],
     
     //###############################################
     'updateCanvas' : () => {
@@ -145,12 +142,12 @@ Game = {
     },
     //###############################################
     'generateBoard' : () => {
-        Game.grid = [];
+        Game.vars.grid = [];
         for(var i=0; i < Puzzle.objects.length; i++){
             gridToInsert = [];
             gridToInsert.length = Puzzle.objects[i].length;
             gridToInsert.fill(0);
-            Game.grid.push(gridToInsert);
+            Game.vars.grid.push(gridToInsert);
         }
         for(var i=0; i < Puzzle.lines.x.length; i++){
             for(var j=0; j < Puzzle.lines.x[i].length; j++){
@@ -192,9 +189,6 @@ Game = {
                     case "endleft":
                         Game.drawEndLeft(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
                         break;
-                    case "line":
-                        Game.drawDebug(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
-                        break;
                 }
             }
         }
@@ -221,6 +215,7 @@ Game = {
                 ctxPath.beginPath();
                 ctxPath.strokeStyle = COLORS.PATH;
                 ctxPath.lineWidth = 22;
+                ctxPath.lineCap = "round";
                 ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
                 ctxPath.lineTo(Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
                 ctxPath.stroke();
@@ -230,13 +225,24 @@ Game = {
                 ctxPath.beginPath();
                 ctxPath.strokeStyle = COLORS.PATH;
                 ctxPath.fillStyle = COLORS.PATH;
+                ctxPath.lineCap = "round";
                 ctxPath.lineWidth = 22;
                 ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
                 ctxPath.lineTo(Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
                 ctxPath.stroke();
-                ctxPath.arc(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y,11,0,Math.PI*2);
-                ctxPath.fill();
                 ctxPath.closePath();
+                break;
+            case "end":
+                ctxPath.beginPath();
+                ctxPath.strokeStyle = COLORS.PATH;
+                ctxPath.fillStyle = COLORS.PATH;
+                ctxPath.lineWidth = 22;
+                ctxPath.lineCap = "round";
+                ctxPath.moveTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15*moveIt.y);
+                ctxPath.lineTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-35*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-35*moveIt.y);
+                ctxPath.stroke();
+                ctxPath.closePath();
+                canPath.className = "anime"
                 break;
         }
     },
@@ -256,17 +262,28 @@ Game = {
                 moveIt.y = 1
                 break;
         }
-        if(cursorPosTemp.x >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-10 && cursorPosTemp.y >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-10 && cursorPosTemp.x <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x+10 && cursorPosTemp.y <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y+10){
+        if(Game.vars.grid[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y] == 0 && cursorPosTemp.x >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15 && cursorPosTemp.y >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15 && cursorPosTemp.x <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x+15 && cursorPosTemp.y <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y+15){
             switch(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].type){
                 case "line":
                     Game.cursorDrawPath("line",dir)
                     Game.vars.gridPos.x += moveIt.x
                     Game.vars.gridPos.y += moveIt.y
+                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
                     break;
                 case "connector":
                     Game.cursorDrawPath("connector",dir)
                     Game.vars.gridPos.x += moveIt.x
                     Game.vars.gridPos.y += moveIt.y
+                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
+                    break;
+                case "endtop":
+                case "endright":
+                case "endbottom":
+                case "endleft":
+                    Game.cursorDrawPath("end",dir)
+                    Game.vars.gridPos.x += moveIt.x
+                    Game.vars.gridPos.y += moveIt.y
+                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
                     break;
             }
         }
@@ -285,7 +302,7 @@ Game = {
             if(Game.vars.gridPos.y - 1 >= 0){
                 Game.cursorCheckObjectType(2);
             }
-            if(Game.vars.gridPos.y + 1 <  Puzzle.objects.length){
+            if(Game.vars.gridPos.y + 1 < Puzzle.objects.length){
                 Game.cursorCheckObjectType(3);
             }
         }
@@ -301,14 +318,21 @@ function cursorStart(){
         ctxPath.clearRect(0,0,canPath.width,canPath.height);
         Game.vars.gridPos.x = -1;
         Game.vars.gridPos.y = -1;
+        Game.vars.grid = [];
+        for(var i=0; i < Puzzle.objects.length; i++){
+            gridToInsert = [];
+            gridToInsert.length = Puzzle.objects[i].length;
+            gridToInsert.fill(0);
+            Game.vars.grid.push(gridToInsert);
+        }
+        canPath.className = ""
     } else {
         for(var i=0; i < Puzzle.objects.length; i++){
             for(var j=0; j < Puzzle.objects[i].length; j++){
                 if(Puzzle.objects[i][j].type == "start" && Game.vars.cursor.x >= Puzzle.objects[i][j].x-20 && Game.vars.cursor.y >= Puzzle.objects[i][j].y-20 && Game.vars.cursor.x <= Puzzle.objects[i][j].x+20 && Game.vars.cursor.y <= Puzzle.objects[i][j].y+20){
-                    console.log("It is a start!")
                     Game.vars.isDrawing = true;
                     Game.pathStart(Puzzle.objects[i][j].x,Puzzle.objects[i][j].y);
-                    Game.grid[i][j] = 1;
+                    Game.vars.grid[i][j] = 1;
                     Game.vars.gridPos.x = i;
                     Game.vars.gridPos.y = j;
                     break;
@@ -319,8 +343,6 @@ function cursorStart(){
             }
         }
     }
-    
-    console.log(Game.vars.cursor)
 }
 Game.updateCanvas();
 Game.generateBoard();
