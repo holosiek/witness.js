@@ -11,7 +11,7 @@ COLORS = {
     'NOEND'  : '#555',
     'END'    : '#555',
     'DEBUG'  : 'wheat',
-    'PATH'   : '#ffffff'
+    'PATH'   : '#fff'
 }
 //-------------------------------------
 can = document.getElementById("puzzle");
@@ -224,7 +224,6 @@ Game = {
             case "connector":
                 ctxPath.beginPath();
                 ctxPath.strokeStyle = COLORS.PATH;
-                ctxPath.fillStyle = COLORS.PATH;
                 ctxPath.lineCap = "round";
                 ctxPath.lineWidth = 22;
                 ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
@@ -235,7 +234,6 @@ Game = {
             case "end":
                 ctxPath.beginPath();
                 ctxPath.strokeStyle = COLORS.PATH;
-                ctxPath.fillStyle = COLORS.PATH;
                 ctxPath.lineWidth = 22;
                 ctxPath.lineCap = "round";
                 ctxPath.moveTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15*moveIt.y);
@@ -243,6 +241,16 @@ Game = {
                 ctxPath.stroke();
                 ctxPath.closePath();
                 canPath.className = "anime"
+                break;
+            case "deadend":
+                ctxPath.beginPath();
+                ctxPath.strokeStyle = COLORS.PATH;
+                ctxPath.lineCap = "square";
+                ctxPath.lineWidth = 22;
+                ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.lineTo(Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.stroke();
+                ctxPath.closePath();
                 break;
         }
     },
@@ -281,6 +289,12 @@ Game = {
                 case "endbottom":
                 case "endleft":
                     Game.cursorDrawPath("end",dir)
+                    Game.vars.gridPos.x += moveIt.x
+                    Game.vars.gridPos.y += moveIt.y
+                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
+                    break;
+                case "noend":
+                    Game.cursorDrawPath("deadend",dir)
                     Game.vars.gridPos.x += moveIt.x
                     Game.vars.gridPos.y += moveIt.y
                     Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
