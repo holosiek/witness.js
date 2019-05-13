@@ -28,6 +28,7 @@ Game = {
     // Game related variables
     'vars' : {
         'isDrawing' : false,
+        'actualGrid' : 0,
         'cursor' : {
             'x' : 0,
             'y' : 0
@@ -254,6 +255,162 @@ Game = {
                 break;
         }
     },
+    'cursorClearPath' : (type,dir) => {
+        moveIt = { 'x' : 0 , 'y' : 0 }
+        switch(dir){
+            case 0:
+                moveIt.x = -1
+                break;
+            case 1:
+                moveIt.x = 1
+                break;
+            case 2:
+                moveIt.y = -1
+                break;
+            case 3:
+                moveIt.y = 1
+                break;
+        }
+        switch(type){
+            case "line":
+                ctxPath.beginPath();
+                ctxPath.globalCompositeOperation = 'destination-out'
+                ctxPath.strokeStyle = COLORS.DEBUG;
+                ctxPath.lineWidth = 23;
+                ctxPath.lineCap = "round";
+                ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.lineTo(Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.stroke();
+                ctxPath.closePath();
+                ctxPath.globalCompositeOperation = 'source-over'
+                break;
+            case "connector":
+                ctxPath.beginPath();
+                ctxPath.globalCompositeOperation = 'destination-out'
+                ctxPath.strokeStyle = COLORS.DEBUG;
+                ctxPath.lineCap = "round";
+                ctxPath.lineWidth = 23;
+                ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.lineTo(Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.stroke();
+                ctxPath.closePath();
+                ctxPath.globalCompositeOperation = 'source-over'
+                break;
+            case "end":
+                ctxPath.beginPath();
+                ctxPath.globalCompositeOperation = 'destination-out'
+                ctxPath.strokeStyle = COLORS.DEBUG;
+                ctxPath.lineWidth = 23;
+                ctxPath.lineCap = "round";
+                ctxPath.moveTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15*moveIt.y);
+                ctxPath.lineTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-35*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-35*moveIt.y);
+                ctxPath.stroke();
+                ctxPath.closePath();
+                ctxPath.globalCompositeOperation = 'source-over'
+                canPath.className = ""
+                break;
+            case "deadend":
+                ctxPath.beginPath();
+                ctxPath.globalCompositeOperation = 'destination-out'
+                ctxPath.strokeStyle = COLORS.DEBUG;
+                ctxPath.lineCap = "square";
+                ctxPath.lineWidth = 23;
+                ctxPath.moveTo(Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.min(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.lineTo(Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x), Math.max(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y, Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y));
+                ctxPath.stroke();
+                ctxPath.closePath();
+                ctxPath.globalCompositeOperation = 'source-over'
+                break;
+        }
+    },
+    'cursorWhatToDraw' : (type, dir, clear = 0) => {
+        exists = false;
+        moveIt = { 'x' : 0 , 'y' : 0 }
+        switch(dir){
+            case 0:
+                moveIt.x = -1
+                break;
+            case 1:
+                moveIt.x = 1
+                break;
+            case 2:
+                moveIt.y = -1
+                break;
+            case 3:
+                moveIt.y = 1
+                break;
+        }
+        switch(type){
+            case "line":
+                if(clear){
+                    Game.cursorClearPath("line",dir)
+                } else {
+                    Game.cursorDrawPath("line",dir)
+                }
+                exists = true;
+                break;
+            case "connector":
+                if(clear){
+                    Game.cursorClearPath("connector",dir)
+                } else {
+                    Game.cursorDrawPath("connector",dir)
+                }
+                exists = true;
+                break;
+            case "endtop":
+            case "endright":
+            case "endbottom":
+            case "endleft":
+                if(clear){
+                    Game.cursorClearPath("end",dir)
+                } else {
+                    Game.cursorDrawPath("end",dir)
+                }
+                exists = true;
+                break;
+            case "noend":
+                if(clear){
+                    Game.cursorClearPath("deadend",dir)
+                } else {
+                    Game.cursorDrawPath("deadend",dir)
+                }
+                exists = true;
+                break;
+        }
+        if(exists){
+            if(clear){
+                Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 0;
+                Game.vars.gridPos.x += moveIt.x;
+                Game.vars.gridPos.y += moveIt.y;
+                Game.vars.actualGrid--;
+                if(Game.vars.actualGrid > 0){
+                    Game.vars.actualGrid--;
+                    if(Game.vars.grid[Game.vars.gridPos.x-1][Game.vars.gridPos.y] == Game.vars.actualGrid){
+                        Game.vars.gridPos.x--;
+                        Game.cursorWhatToDraw(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].type, 1);
+                    } else
+                    if(Game.vars.grid[Game.vars.gridPos.x+1][Game.vars.gridPos.y] == Game.vars.actualGrid){
+                        Game.vars.gridPos.x++;
+                        Game.cursorWhatToDraw(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].type, 0);
+                    } else
+                    if(Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y-1] == Game.vars.actualGrid){
+                        Game.vars.gridPos.y--;
+                        Game.cursorWhatToDraw(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].type, 3);
+                    } else
+                    if(Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y+1] == Game.vars.actualGrid){
+                        Game.vars.gridPos.y++;
+                        Game.cursorWhatToDraw(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].type, 2);
+                    }
+                } else {
+                    Game.pathStart(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].x,Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].y)
+                }
+            } else {
+                Game.vars.gridPos.x += moveIt.x;
+                Game.vars.gridPos.y += moveIt.y;
+                Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = ++Game.vars.actualGrid;
+            }
+        }
+    },
     'cursorCheckObjectType' : (dir)=>{
         moveIt = { 'x' : 0 , 'y' : 0 }
         switch(dir){
@@ -270,35 +427,12 @@ Game = {
                 moveIt.y = 1
                 break;
         }
-        if(Game.vars.grid[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y] == 0 && cursorPosTemp.x >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15 && cursorPosTemp.y >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15 && cursorPosTemp.x <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x+15 && cursorPosTemp.y <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y+15){
-            switch(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].type){
-                case "line":
-                    Game.cursorDrawPath("line",dir)
-                    Game.vars.gridPos.x += moveIt.x
-                    Game.vars.gridPos.y += moveIt.y
-                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
-                    break;
-                case "connector":
-                    Game.cursorDrawPath("connector",dir)
-                    Game.vars.gridPos.x += moveIt.x
-                    Game.vars.gridPos.y += moveIt.y
-                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
-                    break;
-                case "endtop":
-                case "endright":
-                case "endbottom":
-                case "endleft":
-                    Game.cursorDrawPath("end",dir)
-                    Game.vars.gridPos.x += moveIt.x
-                    Game.vars.gridPos.y += moveIt.y
-                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
-                    break;
-                case "noend":
-                    Game.cursorDrawPath("deadend",dir)
-                    Game.vars.gridPos.x += moveIt.x
-                    Game.vars.gridPos.y += moveIt.y
-                    Game.vars.grid[Game.vars.gridPos.x][Game.vars.gridPos.y] = 1;
-                    break;
+        if(cursorPosTemp.x >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15 && cursorPosTemp.y >= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15 && cursorPosTemp.x <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x+15 && cursorPosTemp.y <= Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y+15){
+            if(Game.vars.grid[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y] == 0){
+                Game.cursorWhatToDraw(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].type, dir);
+            } else 
+            if(Game.vars.grid[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y] == Game.vars.actualGrid-1){
+                Game.cursorWhatToDraw(Puzzle.objects[Game.vars.gridPos.x][Game.vars.gridPos.y].type, dir, true);
             }
         }
     },
@@ -340,13 +474,15 @@ function cursorStart(){
             Game.vars.grid.push(gridToInsert);
         }
         canPath.className = ""
+        Game.vars.actualGrid = 0;
     } else {
         for(var i=0; i < Puzzle.objects.length; i++){
             for(var j=0; j < Puzzle.objects[i].length; j++){
                 if(Puzzle.objects[i][j].type == "start" && Game.vars.cursor.x >= Puzzle.objects[i][j].x-20 && Game.vars.cursor.y >= Puzzle.objects[i][j].y-20 && Game.vars.cursor.x <= Puzzle.objects[i][j].x+20 && Game.vars.cursor.y <= Puzzle.objects[i][j].y+20){
                     Game.vars.isDrawing = true;
                     Game.pathStart(Puzzle.objects[i][j].x,Puzzle.objects[i][j].y);
-                    Game.vars.grid[i][j] = 1;
+                    Game.vars.grid[i][j] = Game.vars.actualGrid+1;
+                    Game.vars.actualGrid++;
                     Game.vars.gridPos.x = i;
                     Game.vars.gridPos.y = j;
                     break;
