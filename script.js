@@ -190,6 +190,9 @@ Game = {
                     case "endleft":
                         Game.drawEndLeft(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
                         break;
+                    //default:
+                    //    Game.drawCircle(i*(LENGTH/2)+PADDING, j*(LENGTH/2)+PADDING);
+                    //    break;
                 }
             }
         }
@@ -241,7 +244,7 @@ Game = {
                 ctxPath.lineTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-35*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-35*moveIt.y);
                 ctxPath.stroke();
                 ctxPath.closePath();
-                canPath.className = "anime"
+                canPath.className = "possibleWin"
                 break;
             case "deadend":
                 ctxPath.beginPath();
@@ -300,7 +303,7 @@ Game = {
                 ctxPath.beginPath();
                 ctxPath.globalCompositeOperation = 'destination-out'
                 ctxPath.strokeStyle = COLORS.DEBUG;
-                ctxPath.lineWidth = 23;
+                ctxPath.lineWidth = 30;
                 ctxPath.lineCap = "round";
                 ctxPath.moveTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-15*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-15*moveIt.y);
                 ctxPath.lineTo(Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].x-35*moveIt.x,Puzzle.objects[Game.vars.gridPos.x+moveIt.x][Game.vars.gridPos.y+moveIt.y].y-35*moveIt.y);
@@ -376,6 +379,10 @@ Game = {
                 }
                 exists = true;
                 break;
+            case "start":
+                Game.cursorDrawPath("line",dir);
+                exists = true;
+                break;
         }
         if(exists){
             if(clear){
@@ -383,7 +390,7 @@ Game = {
                 Game.vars.gridPos.x += moveIt.x;
                 Game.vars.gridPos.y += moveIt.y;
                 Game.vars.actualGrid--;
-                if(Game.vars.actualGrid > 0){
+                if(Game.vars.actualGrid > 1){
                     Game.vars.actualGrid--;
                     if(Game.vars.grid[Game.vars.gridPos.x-1][Game.vars.gridPos.y] == Game.vars.actualGrid){
                         Game.vars.gridPos.x--;
@@ -462,20 +469,39 @@ Game = {
 
 function cursorStart(){
     if(Game.vars.isDrawing){
-        Game.vars.isDrawing = false;
-        ctxPath.clearRect(0,0,canPath.width,canPath.height);
-        Game.vars.gridPos.x = -1;
-        Game.vars.gridPos.y = -1;
-        Game.vars.grid = [];
-        for(var i=0; i < Puzzle.objects.length; i++){
-            gridToInsert = [];
-            gridToInsert.length = Puzzle.objects[i].length;
-            gridToInsert.fill(0);
-            Game.vars.grid.push(gridToInsert);
+        if(canPath.className == ""){
+            Game.vars.isDrawing = false;
+            ctxPath.clearRect(0,0,canPath.width,canPath.height);
+            Game.vars.gridPos.x = -1;
+            Game.vars.gridPos.y = -1;
+            Game.vars.grid = [];
+            for(var i=0; i < Puzzle.objects.length; i++){
+                gridToInsert = [];
+                gridToInsert.length = Puzzle.objects[i].length;
+                gridToInsert.fill(0);
+                Game.vars.grid.push(gridToInsert);
+            }
+            canPath.className = ""
+            Game.vars.actualGrid = 0;
+        } else 
+        if(canPath.className == "possibleWin"){
+            document.getElementsByClassName("canv")[0].className += " won";
+            Game.vars.isDrawing = false;
+            Game.vars.gridPos.x = -1;
+            Game.vars.gridPos.y = -1;
+            canPath.className = ""
+            Game.vars.grid = [];
+            for(var i=0; i < Puzzle.objects.length; i++){
+                gridToInsert = [];
+                gridToInsert.length = Puzzle.objects[i].length;
+                gridToInsert.fill(0);
+                Game.vars.grid.push(gridToInsert);
+            }
+            Game.vars.actualGrid = 0;
         }
-        canPath.className = ""
-        Game.vars.actualGrid = 0;
     } else {
+        document.getElementsByClassName("canv")[0].className = "canv"
+        ctxPath.clearRect(0,0,canPath.width,canPath.height);
         for(var i=0; i < Puzzle.objects.length; i++){
             for(var j=0; j < Puzzle.objects[i].length; j++){
                 if(Puzzle.objects[i][j].type == "start" && Game.vars.cursor.x >= Puzzle.objects[i][j].x-20 && Game.vars.cursor.y >= Puzzle.objects[i][j].y-20 && Game.vars.cursor.x <= Puzzle.objects[i][j].x+20 && Game.vars.cursor.y <= Puzzle.objects[i][j].y+20){
