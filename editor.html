@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <title>The Witness | Editor</title>
+        <link href="editor.css" rel="stylesheet" type="text/css">
+    </head>
+    
+    <body>
+        <div class="board-wrap">
+            <div class="board" id="boar"></div>
+        </div>
+        <div class="menu">
+            <div class="menu-label">Grid X</div>
+            <input id="inputGridX" type="number" class="inputnum" step="2" name="gridX" min="1" value="11" oninput="board.sizeX = this.value; boardCreate();">
+            <div class="menu-label">Grid Y</div>
+            <input id="inputGridY" type="number" class="inputnum" step="2" name="gridY" min="1" value="11" oninput="board.sizeY = this.value; boardCreate();">
+            <div class="menu-label">Blocks</div>
+            <div class="menu-button" onclick="changeColor(0)">Start</div>
+            <div class="menu-button" onclick="changeColor(1)">Line horozintal</div>
+            <div class="menu-button" onclick="changeColor(2)">Line vertical</div>
+            <div class="menu-button" onclick="changeColor(3)">Connector</div>
+            <div class="menu-button" onclick="changeColor(4)">End bottom</div>
+            <div class="menu-button" onclick="changeColor(5)">End top</div>
+            <div class="menu-button" onclick="changeColor(6)">End left</div>
+            <div class="menu-button" onclick="changeColor(7)">End right</div>
+            <div class="menu-button" onclick="changeColor(8)">Noend</div>
+            <div class="menu-button" onclick="changeColor(9)">&gt; None &lt;</div>
+            <div class="menu-label">Cubes</div>
+            <div class="menu-label">Options</div>
+            <div class="menu-button" onclick="savePuzzle()">Save puzzle</div>
+            <div class="menu-button" onclick="loadPuzzle()">Load puzzle</div>
+        </div>
+    </body>
+    
+    <script src="editor.js"></script>
+</html>
