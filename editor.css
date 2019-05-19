@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Baloo');
 .board             { border: 1px solid black; padding: 10px; }
-.menu              { position: fixed; top: 10px; right: 10px; padding: 10px; background: #333; z-index: 100; user-select: none; -moz-user-select: none; }
-.inputnum          { background: #444; padding: 5px; margin: 5px 0; border : 0; width: 40%; font-weight: bold; color: white; }
-.menu-label        { color: white; font-family: 'Baloo', cursive; margin-top: 5px; font-size: 14px; }
+.menu              { position: fixed; top: 10px; right: 10px; background: #333; z-index: 100; user-select: none; -moz-user-select: none; padding-bottom: 10px; }
+.inputnum          { background: #444; padding: 5px; margin: 5px 0; border : 0; width: 40%; font-weight: bold; color: white; margin-left: 10px; }
+.menu-label        { color: white; padding: 5px 10px; margin-bottom: 5px; font-family: 'Baloo', cursive; margin-top: 5px; font-size: 14px; text-shadow: 2px 2px 5px black; }
 .board-wrap        { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; background: #111; }
-.box               { width: 30px; height: 30px; background-size: cover; border: 1px solid #222; box-sizing: border-box; float: left; font-size: 8px; font-family: 'Baloo', cursive; color: #222; user-select: none; -moz-user-select: none; }
-.cube-box          { width: 30px; height: 30px; background-size: cover; border: 1px solid green; box-sizing: border-box; float: left; font-size: 8px; font-family: 'Baloo', cursive; color: #222; user-select: none; -moz-user-select: none; }
-.menu-button       { cursor: pointer; font-family: 'Baloo', cursive; font-size: 12px; color: #777; transition: font-size 0.2s, color 0.2s }
+.box               { width: 48px; height: 48px; margin: 1px; background-size: cover; text-overflow: ellipsis; overflow: hidden; border: 1px solid #222; box-sizing: border-box; float: left; line-height: 48px; font-size: 14px; text-align: center; font-family: 'Baloo', cursive; color: #999; user-select: none; -moz-user-select: none; }
+.cube-box          { border: 2px solid #3f6590; color: #3f6590; }
+.line-box          { border: 1px solid #555; color: #555; }
+.menu-button       { cursor: pointer; font-family: 'Baloo', cursive; font-size: 12px; color: #777; transition: font-size 0.2s, color 0.2s; padding-left: 10px; }
 .menu-button:hover { font-size: 16px; color: #aaa; }
 .menu-button-on    { color: goldenrod !important; }

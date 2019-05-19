@@ -10,23 +10,29 @@
             <div class="board" id="boar"></div>
         </div>
         <div class="menu">
-            <div class="menu-label">Grid X</div>
-            <input id="inputGridX" type="number" class="inputnum" step="2" name="gridX" min="1" value="11" oninput="board.sizeX = this.value; boardCreate();">
-            <div class="menu-label">Grid Y</div>
-            <input id="inputGridY" type="number" class="inputnum" step="2" name="gridY" min="1" value="11" oninput="board.sizeY = this.value; boardCreate();">
-            <div class="menu-label">Blocks</div>
-            <div class="menu-button" onclick="changeColor(0)">Start</div>
-            <div class="menu-button" onclick="changeColor(1)">Line horozintal</div>
-            <div class="menu-button" onclick="changeColor(2)">Line vertical</div>
-            <div class="menu-button" onclick="changeColor(3)">Connector</div>
-            <div class="menu-button" onclick="changeColor(4)">End bottom</div>
-            <div class="menu-button" onclick="changeColor(5)">End top</div>
-            <div class="menu-button" onclick="changeColor(6)">End left</div>
-            <div class="menu-button" onclick="changeColor(7)">End right</div>
-            <div class="menu-button" onclick="changeColor(8)">Noend</div>
-            <div class="menu-button" onclick="changeColor(9)">&gt; None &lt;</div>
-            <div class="menu-label">Cubes</div>
-            <div class="menu-label">Options</div>
+            <div class="menu-label" style="background:#262626;">Grid X</div>
+            <input id="inputGridY" type="number" class="inputnum" step="2" name="gridX" min="5" value="11" oninput="Board.sizeX = this.value; boardCreate();">
+            
+            <div class="menu-label" style="background:#262626;">Grid Y</div>
+            <input id="inputGridX" type="number" class="inputnum" step="2" name="gridY" min="5" value="11" oninput="Board.sizeY = this.value; boardCreate();">
+            
+            <div class="menu-label" style="background:#222;">Blocks</div>
+            <div class="menu-button" id="tool_8" onclick="changeColor(8)">&gt; Eraser for blocks &lt;</div>
+            <div class="menu-button" id="tool_0" onclick="changeColor(0)">Start</div>
+            <div class="menu-button" id="tool_2" onclick="changeColor(2)">Connector</div>
+            <div class="menu-button" id="tool_3" onclick="changeColor(3)">End bottom</div>
+            <div class="menu-button" id="tool_4" onclick="changeColor(4)">End top</div>
+            <div class="menu-button" id="tool_5" onclick="changeColor(5)">End left</div>
+            <div class="menu-button" id="tool_6" onclick="changeColor(6)">End right</div>
+            <div class="menu-button" id="tool_7" onclick="changeColor(7)">Noend</div>
+            
+            <div class="menu-label" style="background:#444;">Lines</div>
+            <div class="menu-button" id="tool_9" onclick="changeColor(9)">&gt; Eraser for lines &lt;</div>
+            <div class="menu-button" id="tool_1" onclick="changeColor(1)">Path</div>
+            
+            <div class="menu-label" style="background:#3f6590;">Cubes</div>
+            
+            <div class="menu-label" style="background:#262626;">Options</div>
             <div class="menu-button" onclick="savePuzzle()">Save puzzle</div>
             <div class="menu-button" onclick="loadPuzzle()">Load puzzle</div>
         </div>
