@@ -1,2 +1,6 @@
 # witness.js
-The Witness game puzzles in js and canvas
+The Witness game puzzle made in JS and HTML Canvas.
+
+Link: https://holosiek.github.io/witness.js/
+
+Project is not finished.
